@@ -19,8 +19,13 @@ const log: NextApiHandler<string> = async (req, res) => {
     return forbid(`missing or incorrect \`secret\``);
   }
 
-  const lat = parseFloat(query.lat?.toString());
-  const lon = parseFloat(query.lon?.toString());
+  const latlon = query.latlon?.toString();
+
+  if (!latlon) {
+    return forbid("missing `latlon` query parameter");
+  }
+
+  const [lat, lon] = latlon?.split(",")?.map((axis) => parseFloat(axis));
 
   if (!lat || Math.abs(lat) > 90) {
     return forbid(

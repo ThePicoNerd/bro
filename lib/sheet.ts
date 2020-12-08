@@ -1,6 +1,7 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
-const { SPREADSHEET_ID, SA_KEY, SA_EMAIL } = process.env;
+const { SPREADSHEET_ID, SA_EMAIL } = process.env;
+const SA_KEY = process.env.SA_KEY.replace(/\\n/gm, "\n");
 
 export interface SpreadsheetRow extends Record<string, string | number> {
   timestamp: string;
