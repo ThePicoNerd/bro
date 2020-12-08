@@ -4,11 +4,22 @@ import useSWR from "swr";
 import { Entry } from "../lib/entry";
 
 export default function Home() {
-  const { data } = useSWR(`/history`, async () =>
-    ky.get("/api/history").json<Entry[]>()
+  const { data } = useSWR(
+    `/history`,
+    async () => {
+      const entries = await ky.get("/api/history").json<Entry[]>();
+
+      return {
+        entries,
+        updatedAt: new Date(),
+      };
+    },
+    {
+      refreshInterval: 10000,
+    }
   );
 
-  console.log(data);
+  const entries = data?.entries;
 
   return (
     <>
@@ -17,9 +28,10 @@ export default function Home() {
         github.com/ThePicoNerd/bro
       </a>
       <h2>Koordinater</h2>
+      <p>Uppdaterades senast {dayjs(data?.updatedAt).format("HH:mm:ss")}</p>
       {data ? (
         <ul>
-          {data?.map(({ timestamp, lat, lon }) => (
+          {entries?.map(({ timestamp, lat, lon }) => (
             <li key={timestamp}>
               <a
                 href={`http://www.google.com/maps/place/${lat.toString()},${lon.toString()}`}
