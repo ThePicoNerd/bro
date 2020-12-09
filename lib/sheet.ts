@@ -10,7 +10,7 @@ const SA_KEY = process.env.SA_KEY.replace(/\\n/gm, "\n");
 export interface SpreadsheetRow extends Record<string, string | number> {
   timestamp: string;
   lat: number;
-  lon: number;
+  lng: number;
 }
 
 export async function getWorksheet(): Promise<GoogleSpreadsheetWorksheet> {
@@ -30,14 +30,14 @@ export async function getWorksheet(): Promise<GoogleSpreadsheetWorksheet> {
 
 export async function insertCoordinates(
   lat: number,
-  lon: number
+  lng: number
 ): Promise<void> {
   const sheet = await getWorksheet();
 
   const row: SpreadsheetRow = {
     timestamp: new Date().toISOString(),
     lat,
-    lon,
+    lng,
   };
 
   await sheet.addRow(row);
@@ -58,6 +58,6 @@ export async function fetchEntries(): Promise<Entry[]> {
   return rows.reverse().map((row) => ({
     timestamp: new Date(row.timestamp).toISOString(),
     lat: parseStupidNumber(row.lat),
-    lon: parseStupidNumber(row.lon),
+    lng: parseStupidNumber(row.lng),
   }));
 }

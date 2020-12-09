@@ -19,13 +19,13 @@ const log: NextApiHandler<string> = async (req, res) => {
     return forbid(`missing or incorrect \`secret\``);
   }
 
-  const lonlat = query.lonlat?.toString();
+  const lnglat = query.lonlat?.toString() || query.lnglat?.toString();
 
-  if (!lonlat) {
-    return forbid("missing `lonlat` query parameter");
+  if (!lnglat) {
+    return forbid("missing `lnglat` query parameter");
   }
 
-  const [lon, lat] = lonlat?.split(",")?.map((axis) => parseFloat(axis));
+  const [lng, lat] = lnglat?.split(",")?.map((axis) => parseFloat(axis));
 
   if (!lat || Math.abs(lat) > 90) {
     return forbid(
@@ -33,13 +33,13 @@ const log: NextApiHandler<string> = async (req, res) => {
     );
   }
 
-  if (!lon || Math.abs(lon) > 180) {
+  if (!lng || Math.abs(lng) > 180) {
     return forbid(
-      `missing or invalid \`lon\` (got: \`${lon}\`, must be between -180 and 180)`
+      `missing or invalid \`lng\` (got: \`${lng}\`, must be between -180 and 180)`
     );
   }
 
-  await insertCoordinates(lat, lon);
+  await insertCoordinates(lat, lng);
 
   res.send("success");
 };
