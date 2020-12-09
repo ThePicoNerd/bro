@@ -19,13 +19,17 @@ const log: NextApiHandler<string> = async (req, res) => {
     return forbid(`missing or incorrect \`secret\``);
   }
 
-  const lnglat = query.lonlat?.toString() || query.lnglat?.toString();
+  // For some reason, MacroDroid stores their GPS coordinates as <lng>,<lat> where lng is a number between 0 and 360 (NOT -180 and 180).
+  const mdloc = query.mdloc?.toString();
 
-  if (!lnglat) {
-    return forbid("missing `lnglat` query parameter");
+  if (!mdloc) {
+    return forbid("missing `mdloc` query parameter");
   }
 
-  const [lng, lat] = lnglat?.split(",")?.map((axis) => parseFloat(axis));
+  const [mdLng, mdLat] = mdloc.split(",").map((axis) => parseFloat(axis));
+
+  const lng = mdLng > 180 ? mdLng - 360 : mdLng;
+  const lat = mdLat;
 
   if (!lat || Math.abs(lat) > 90) {
     return forbid(
