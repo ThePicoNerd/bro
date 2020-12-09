@@ -10,6 +10,7 @@ export default function Home() {
       <a href="https://github.com/ThePicoNerd/bro">
         github.com/ThePicoNerd/bro
       </a>
+      <p>Läser in kartan ...</p>
       <LiveMap />
       {/* <h2>Koordinater</h2>
       <p>Uppdaterades senast {dayjs(data?.updatedAt).format("HH:mm:ss")}</p>

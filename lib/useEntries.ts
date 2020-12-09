@@ -8,7 +8,13 @@ function useEntries(): [Entry[], Date] {
 
   const { data } = useSWR(
     `/history`,
-    async () => ky.get("/api/history").json<Entry[]>(),
+    async () => {
+      const entries = await ky.get("/api/history").json<Entry[]>();
+
+      setLastUpdate(new Date());
+
+      return entries;
+    },
     {
       refreshInterval: 10000,
     }

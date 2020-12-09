@@ -8,21 +8,29 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/babel-plugin": "^11.1.2",
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.1.2",
     "dayjs": "^1.9.7",
+    "deck.gl": "^8.3.11",
     "google-spreadsheet": "^3.0.14",
     "ky": "^0.25.1",
     "ky-universal": "^0.8.2",
     "mapbox-gl": "^2.0.0",
     "next": "10.0.3",
+    "polished": "^4.0.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-map-gl": "^5.2.10",
     "swr": "^0.3.9"
   },
   "devDependencies": {
+    "@danmarshall/deckgl-typings": "^4.4.0",
     "@types/google-spreadsheet": "^3.0.2",
     "@types/mapbox-gl": "^1.13.0",
     "@types/node": "^14.14.11",
     "@types/react": "^17.0.0",
+    "@types/react-map-gl": "^5.2.9",
     "typescript": "^4.1.2"
   }
 }
